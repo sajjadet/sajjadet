@@ -159,9 +159,9 @@ class AuctionEvents extends Contract {
             reservePrice: Number(reservePrice),
             state: JSON.stringify(ListingState.ForSale),
             originalCreditId: originalCreditId,
-			Hours_start_bidding: now.getHours(),
-			day_start_bidding: now.getDay();
-			Month_start_bidding: now.getMonth(),
+	    Hours_start_bidding: now.getHours(),
+	    day_start_bidding: now.getDay(),
+	    Month_start_bidding: now.getMonth(),
             offers: []
         };        
         await ctx.stub.putState(listingId, Buffer.from(JSON.stringify(CarbonCreditListing)));
@@ -201,17 +201,14 @@ class AuctionEvents extends Contract {
             listing = JSON.parse(listingData.toString());
         } else {
             throw new Error('CarbonCredit not found');
-        }
-		
-		// Checking the time limit for auction
-		let hours_now= now.getHours();
-		let day_now=  now.getDay();
-		let month_now= now.getMonth();
-		if (month_now!==listing.Month_start_bidding || day_now!==listing.day_start_bidding || hours_now > (listing.Hours_start_bidding+10)) {
+        }		
+	// Checking the time limit for auction
+	let hours_now= now.getHours();
+	let day_now=  now.getDay();
+	let month_now= now.getMonth();
+	if (month_now!==listing.Month_start_bidding || day_now!==listing.day_start_bidding || hours_now > (listing.Hours_start_bidding+10)) {
             throw new Error('The auction period ended 10 hours after it started.');
         }
-		
-
         // get CarbonCredit from the listing
         let CarbonCreditData = await ctx.stub.getState(listing.originalCreditId);
         let CarbonCredit;

@@ -104,10 +104,10 @@ class AuctionEvents extends Contract {
 		ownerId
     ) {
         // verify that there is no similar CarbonCredit in the auction
-		let auctionData = await ctx.stub.getState(originalCreditId);
+	let auctionData = await ctx.stub.getState(originalCreditId);
         if (auctionData) {
             throw new Error('This CarbonCredit has already been added to the auction list.');
-		}
+	}
 			
         // verify id and retreive seller
         let sellerData = await ctx.stub.getState(ownerId);
